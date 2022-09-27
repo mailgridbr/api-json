@@ -1,5 +1,6 @@
 # api-json
 
+///////////////////////////////////////////////////////////////////////
 
 === API para envio de email - JSON ===
 
@@ -99,11 +100,9 @@ Isso quer dizer que um ou mais parâmetros não foram passados corretamente via 
 
 As mensagens enviadas com sucesso são registradas automaticamente no relatório de envios, com atualização aprox. a cada 15 minutos.
 
+///////////////////////////////////////////////////////////////////////
 
-
-===============================================================
-API DE RELATÓRIOS JSON
-===============================================================
+=== API DE RELATÓRIOS JSON ===
 
 API para obter relatório de envios - JSON
 
