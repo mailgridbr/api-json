@@ -27,23 +27,37 @@ OBS: Parâmetros devem ser codificados em UTF-8.
 
 *** Parâmetros a serem enviados ***
 
-Parâmetro - Obs.
+[ Parâmetro ] - Obs.
+
 host_smtp (Endereço do servidor SMTP) -  Obrigatório
+
 usuario_smtp (Usuário para autenticação) -  Obrigatório
+
 senha_smtp (Senha para autenticação) -  Obrigatório
+
 emailRemetente (Email do remetente) - Obrigatório
+
 nomeRemetente (Nome do remetente) -  Opcional
+
 emailReply (Email de resposta) - Opcional
+
 emailDestino (Array com emails para onde será enviada a mensagem) - Obrigatório
+
 nomeDestino (Nome do destinatário) -  Opcional
+
 emailDestinoCopia (Array com email para onde será copiada a mensagem) - Opcional
+
 assunto (Assunto da mensagem) - Obrigatório
+
 mensagem Mensagem a ser enviada Obrigatório – texto ou html
+
 
 ** se for enviar anexo **
 
 anexoContent (arquivo codificado em base64 / Data URI) - Opcional
+
 anexoFileName (nome do arquivo a ser enviado) - Opcional
+
 anexoType (tipo Mime do arquivo a ser anexado. ex: image/jpeg) - Opcional
 
 ===============================================================
