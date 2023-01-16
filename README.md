@@ -46,6 +46,8 @@ nomeDestino (Nome do destinatário) -  Opcional
 
 emailDestinoCopia (Array com email para onde será copiada a mensagem) - Opcional
 
+emailDestinoCopiaOculta (Array com email para onde será copiada a mensagem de forma oculta) - Opcional
+
 assunto (Assunto da mensagem) - Obrigatório
 
 mensagem Mensagem a ser enviada Obrigatório – texto ou html
