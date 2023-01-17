@@ -40,13 +40,13 @@ nomeRemetente (Nome do remetente) -  Opcional
 
 emailReply (Email de resposta) - Opcional
 
-emailDestino (Array com emails para onde será enviada a mensagem) - Obrigatório
+emailDestino (Array com emails para onde será enviada a mensagem - max 100 contatos por chamada) - Obrigatório
 
 nomeDestino (Nome do destinatário) -  Opcional
 
-emailDestinoCopia (Array com email para onde será copiada a mensagem) - Opcional
+emailDestinoCopia (Array com email para onde será copiada a mensagem - max 100 contatos por chamada) - Opcional
 
-emailDestinoCopiaOculta (Array com email para onde será copiada a mensagem de forma oculta) - Opcional
+emailDestinoCopiaOculta (Array com email para onde será copiada a mensagem de forma oculta - max 100 contatos por chamada) - Opcional
 
 assunto (Assunto da mensagem) - Obrigatório
 
@@ -65,6 +65,10 @@ anexoType (tipo Mime do arquivo a ser anexado. ex: image/jpeg) - Opcional
 
 Atenção: Os dados devem ser passados via POST, codificados em JSON.
 Não esqueça de passar o header Content-Type: application/json
+
+-----
+
+O tamanho total da mensagem não deve exceder 20 MB. Isso inclui a mensagem em si, os cabeçalhos e o tamanho combinado de quaisquer anexos.
 
 -----
 
