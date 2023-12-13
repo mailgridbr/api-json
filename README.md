@@ -1,32 +1,33 @@
-# api-json
+# API MailGrid - JSON
 
 ///////////////////////////////////////////////////////////////////////
 
-=== API para envio de email - JSON ===
+///////////////// ENVIO DE EMAILS  /////////////////
 
 Bem-vindo ao guia de referências da API de envio SMTP! É através desta API
 que você irá integrar seu sistema ao nosso para realizar os envios através de
 nosso SMTP dedicado.
 
+///////////////////////////////////////////////////////////////////////
+
+ENDPOINT PARA ENVIO
+
 A primeira coisa que você deve saber é o endpoint que usamos:
-https://painel.mailgrid.com.br/api/
+https://painel.mailgrid.com.br/api/send/
 
-OBS: Também é possível usar o protocolo http caso prefira.
+- Também é possível usar o protocolo http caso prefira.
+- As chamadas da API devem ser feitas em POST
 
-As chamadas da API devem ser feitas em POST
+///////////////////////////////////////////////////////////////////////
 
-Objeto status
+INFORMAÇÕES ADICIONAIS
 
-Ao realizar um envio, este será o objeto que você irá receber como resposta.
-Todos os envios são realizados na API pela porta 587 SMTP.
+- Todos os envios são realizados na API pela porta 587 SMTP.
+- Os parâmetros e conteúdos passados, devem ser codificados em UTF-8.
 
-OBS: Parâmetros devem ser codificados em UTF-8.
+///////////////////////////////////////////////////////////////////////
 
------
-
-*** Parâmetros a serem enviados ***
-
-[ Parâmetro ] - Obs.
+PARÂMETROS A SEREM PASSADOS
 
 host_smtp (Endereço do servidor SMTP) -  Obrigatório
 
@@ -50,27 +51,70 @@ emailDestinoCopiaOculta (Array com email para onde será copiada a mensagem de f
 
 assunto (Assunto da mensagem) - Obrigatório
 
-mensagem Mensagem a ser enviada Obrigatório – texto ou html
+mensagem (Mensagem a ser enviada) -  Obrigatório, aceita texto ou HTML
+
+mensagemAlt (Mensagem alternativa/AltBody, texto puro) - Opcional
+
+mensagemTipo (Tipo da mensagem, se texto ou HTML) - Opcional, caso não seja definido, o tipo padrão será HTML
+
+mensagemEncoding (Codificação da mensagem, base64 ou quoted-printable) - Opcional, caso não seja definido, a codificação padrão será base64
+
+mensagemAnexos (Array com anexos codificados em base64) - Opcional
 
 
-** se for enviar anexo **
+NO CASO DE ENVIAR UM OU MAIS ANEXOS
 
-anexoContent (arquivo codificado em base64 / Data URI) - Opcional
+A API permite o envio de um ou mais arquivos anexos, usando o parâmetro opcional, mensagemAnexos para isso, em array, no seguinte modelo: 
 
-anexoFileName (nome do arquivo a ser enviado) - Opcional
+onde: 
 
-anexoType (tipo Mime do arquivo a ser anexado. ex: image/jpeg) - Opcional
+name - deve ser informado o nome do arquivo (ex:  imagem.jpg)
+type  - tipo Mime do arquivo a ser anexado (ex: image/jpeg)
+content - arquivo codificado em base64 / Data URI
 
------
+exemplo: 
+
+{"file1": {"name": "imagem.jpg", "type": "image/jpeg", "content": "/9j/4AAQSkZJRgABAQEBLAEsAAD/2wBDAAYEBAQFBAYFBQYJBgUGCQsIBgYICwwKCgsKCgwQDAwMDAwMEAwODxAPDgwTExQUExMcGxsbHCAgICAgICAgICD/2wBDAQcHBw0MDRgQEBgaFREVGiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICD/wAARCAAUABQDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAf/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCNVJaAAAAAAAAH/9k="}, "file2": {"name": "pixel2.jpg", "type": "image/jpeg", "content": "/9j/4AAQSkZJRgABAQEBLAEsAAD/2wBDAAYEBAQFBAYFBQYJBgUGCQsIBgYICwwKCgsKCgwQDAwMDAwMEAwODxAPDgwTExQUExMcGxsbHCAgICAgICAgICD/2wBDAQcHBw0MDRgQEBgaFREVGiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICD/wAARCAAUABQDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAP/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAYH/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AoytOgAAAAAAAP//Z"}},
+
+///////////////////////////////////////////////////////////////////////
 
 Atenção: Os dados devem ser passados via POST, codificados em JSON.
 Não esqueça de passar o header Content-Type: application/json
 
------
+O tamanho total da mensagem (incluindo anexos) não deve exceder 50 MB. Isso inclui a mensagem em si, os cabeçalhos e o tamanho combinado de quaisquer anexos.
 
-O tamanho total da mensagem não deve exceder 20 MB. Isso inclui a mensagem em si, os cabeçalhos e o tamanho combinado de quaisquer anexos.
+///////////////////////////////////////////////////////////////////////
 
------
+CÓDIGOS DE RETORNO
+
+200 MSG ENVIADA - Informa que o envio ocorreu com sucesso
+208 FALTAM PARAMETROS - Informa que um ou mais parâmetros obrigatórios, não foi passado ou não foram passados no formato JSON
+204 ERRO DE ENVIO - Ocorre quando houve erro no envio, ocasionado por falha de conexão SMTP
+207 ERRO: FALHA DE AUTENTICACAO  - Ocorre quando forem passados dados incorretos de autenticação SMTP
+211 ERRO: ENCODING INVALIDO - Ocorre quando for passado o parâmetro demensagemEncoding de forma incorreta ou formato inválido
+212 ERRO: TIPO INVALIDO - Ocorre quando for passado o parâmetro mensagemTipo de forma incorreta ou formato inválido
+215 ERRO: TAMANHO EXCEDIDO - Ocorre quando o tamanho total da mensagem, incluindo anexos, exceder o limite do plano
+
+///////////////////////////////////////////////////////////////////////
+
+EXEMPLOS DE CHAMADA E RETORNO
+
+Exemplo de chamada para envio:
+
+{
+    "host_smtp": "gridxxxxxxxx.mailgrid.com.br",
+    "usuario_smtp": "apitestexxxxxx@mailgrid.com.br", 
+    "senha_smtp": "xxxxxxxxxxxxxxxx", 
+    "emailRemetente": "teste@mailgrid.com.br", 
+    "nomeRemetente": "MailGrid",
+    "emailDestino": ["teste@mailgrid.com.br","postmaster@mailgrid.com.br"], 
+    "assunto": "Teste da API json produção",
+    "mensagemAnexos": {"file1": {"name": "pixel.jpg", "type": "image/jpeg", "content": "/9j/4AAQSkZJRgABAQEBLAEsAAD/2wBDAAYEBAQFBAYFBQYJBgUGCQsIBgYICwwKCgsKCgwQDAwMDAwMEAwODxAPDgwTExQUExMcGxsbHCAgICAgICAgICD/2wBDAQcHBw0MDRgQEBgaFREVGiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICD/wAARCAAUABQDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAf/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCNVJaAAAAAAAAH/9k="}, "file2": {"name": "pixel2.jpg", "type": "image/jpeg", "content": "/9j/4AAQSkZJRgABAQEBLAEsAAD/2wBDAAYEBAQFBAYFBQYJBgUGCQsIBgYICwwKCgsKCgwQDAwMDAwMEAwODxAPDgwTExQUExMcGxsbHCAgICAgICAgICD/2wBDAQcHBw0MDRgQEBgaFREVGiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICD/wAARCAAUABQDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAP/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAYH/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AoytOgAAAAAAAP//Z"}},
+    "mensagem": "<h1>Mensagem de teste da API</h1> <p>Testando api de <b>html</b> de envio json</p>",
+    "mensagemTipo": "html",
+    "mensagemEncoding": "base64",
+    "mensagemAlt": "mensagem de teste da API json"
+    }
 
 Exemplo de retorno em JSON:
 
@@ -80,6 +124,7 @@ Quando a mensagem for enviada com sucesso:
   "0": {
     "status": "MSG ENVIADA",
     "codigo": "200",
+    "id": "1rDPyZ-0006kJ-2N",
     "criptokey": "67bb60dc8c61c2c807c53a97c781176a",
     "to": "postmaster@mailgrid.com.br"
   }
@@ -88,7 +133,7 @@ Quando a mensagem for enviada com sucesso:
 Quando ocorrer erro no envio, retornará o erro:
 
 {
-  "status": "ERRO",
+  "status": "ERRO DE ENVIO",
   "codigo": "204",
   "criptokey": "f87e7bf77c609d9537e146fb32d88418",
   "to": "seunome@seuemail.com"
@@ -104,29 +149,30 @@ Isso quer dizer que um ou mais parâmetros não foram passados corretamente via 
 
 -----
 
-As mensagens enviadas com sucesso são registradas automaticamente no relatório de envios, com atualização aprox. a cada 15 minutos.
+As mensagens enviadas com sucesso são registradas automaticamente no relatório de envios, onde o painel tem atualização aprox. a cada 10 minutos.
 
 ///////////////////////////////////////////////////////////////////////
 
-=== API DE RELATÓRIOS JSON ===
+///////////////// RELATÓRIO DE EMAILS  ////////////////////
 
-API para obter relatório de envios - JSON
+É através desta API que você irá integrar seu sistema ao nosso para obter relatórios dos envios realizados através de nosso SMTP dedicado.
 
-Bem-vindo ao guia de referências da API de relatórios! É através desta API que você irá integrar seu sistema ao nosso para obter o
-relatório de entrega dos envios realizados através de nosso SMTP dedicado.
+///////////////////////////////////////////////////////////////////////
+
+ENDPOINT PARA OBTER RELATÓRIO DE ENVIOS 
+
+Use para obter relatório dos envios realizados
 
 A primeira coisa que você deve saber é o endpoint que usamos:
-https://painel.mailgrid.com.br/api/report.php
+https://painel.mailgrid.com.br/api/report/
 
-OBS: Também é possível usar o protocolo http caso prefira.
+- Também é possível usar o protocolo http caso prefira.
+- As chamadas da API devem ser feitas em POST, codificados em JSON
 
-Os parâmetros devem ser passados em POST, codificados em JSON.
 
-----
+///////////////////////////////////////////////////////////////////////
 
-Parâmetros a serem enviados
-
-[ Parametro ] - Obs.
+PARÂMETROS
 
 usuario_smtp (usuário para autenticação – fornecido na abertura de conta, o mesmo utilizado para autenticação smtp) - Obrigatório
 
@@ -146,7 +192,14 @@ emaildestino (email para onde a mensagem foi enviada - caso queira pesquisar ema
 
 remetente (email utilizado como remetente do envio - caso queira pesquisar emails enviados por um determinado remetente) - Opcional
 
-----
+idMensagem (caso queira consultar/pesquisar apenas pelo id de uma mensagem enviada) - Opcional
+
+///////////////////////////////////////////////////////////////////////
+
+Atenção: Os dados devem ser passados via POST, codificados em JSON.
+Não esqueça de passar o header Content-Type: application/json
+
+///////////////////////////////////////////////////////////////////////
 
 Exemplo de chamada em JSON:
 
@@ -185,15 +238,9 @@ Ex:
 }
 
 
-----
+///////////////////////////////////////////////////////////////////////
 
-Quando ocorrer erro na informação dos parâmetros, resultará em mensagem de erro:
-
-ex: {"0":{"status":"ERRO: FALTAM PARAMETROS","codigo":"208"}}
-
-----
-
-Códigos e erros:
+CÓDIGOS DE RETORNO 
 
 {"0":{"status":"ERRO: FALTAM PARAMETROS","codigo":"208"}}
 Isso quer dizer que um ou mais parâmetros obrigatórios, não foram passados.
@@ -211,9 +258,7 @@ HH:MM (horas:minutos) ex: 12:02
 Atenção! Os relatórios de envios são atualizados aprox. a cada 15 minutos. Ao realizar um envio, caso não o veja em seguida no painel, basta aguardar a
 atualização.
 
-----
-
-===============================================================
+///////////////////////////////////////////////////////////////////////
 
 Em caso de dúvidas, entre em contato com nosso suporte técnico, pela URL https://www.mailgrid.com.br/suporte
 
