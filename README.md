@@ -153,7 +153,7 @@ As mensagens enviadas com sucesso são registradas automaticamente no relatório
 
 ///////////////////////////////////////////////////////////////////////
 
-///////////////// RELATÓRIO DE EMAILS  ////////////////////
+<h2>RELATÓRIO DE EMAILS</h2>
 
 É através desta API que você irá integrar seu sistema ao nosso para obter relatórios dos envios realizados através de nosso SMTP dedicado.
 
@@ -254,7 +254,7 @@ atualização.
 ///////////////////////////////////////////////////////////////////////
 
 
-///////////////// RELATÓRIO CONSOLIDADO  ////////////////////
+<h2>RELATÓRIO CONSOLIDADO</h2>
 
 É através desta API que você irá integrar seu sistema ao nosso para obter o relatório consolidado dos envios realizados através de SMTP.
 
