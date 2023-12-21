@@ -2,7 +2,7 @@
 
 ///////////////////////////////////////////////////////////////////////
 
-///////////////// ENVIO DE EMAILS  /////////////////
+<h2>ENVIO DE EMAILS</h2>
 
 Bem-vindo ao guia de referências da API de envio SMTP! É através desta API
 que você irá integrar seu sistema ao nosso para realizar os envios através de
