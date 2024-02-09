@@ -1,4 +1,4 @@
-URL url = new URL("https://painel.mailgrid.com.br/api/");
+URL url = new URL("https://painel.mailgrid.com.br/api/send/");
 HttpURLConnection http = (HttpURLConnection)url.openConnection();
 http.setRequestMethod("POST");
 http.setDoOutput(true);
