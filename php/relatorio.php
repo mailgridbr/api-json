@@ -1,6 +1,6 @@
 <?php
 ////////////////
-$url = "https://painel.mailgrid.com.br/api/report.php";
+$url = "https://painel.mailgrid.com.br/api/report/";
 
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_URL, $url);
