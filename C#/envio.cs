@@ -1,4 +1,4 @@
-var url = "https://painel.mailgrid.com.br/api/";
+var url = "https://painel.mailgrid.com.br/api/send/";
 
 var httpRequest = (HttpWebRequest)WebRequest.Create(url);
 httpRequest.Method = "POST";
