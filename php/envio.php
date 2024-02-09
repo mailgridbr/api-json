@@ -1,6 +1,6 @@
 <?php
 /////exemplo de envio php com API JSON MailGrid
-$url = "https://painel.mailgrid.com.br/api/";
+$url = "https://painel.mailgrid.com.br/api/send/";
 
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_URL, $url);
