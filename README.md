@@ -120,6 +120,11 @@ CÓDIGOS DE RETORNO
 
 - 223 ERRO: LIMITE DE CONTATOS EXCEDIDO - parametro emailDestinoCopiaOculta - Ocorre quando o limite de contatos no campo emailDestinoCopiaOculta, por chamada, é excedido
 
+- 227 ERRO: FORMATO INCORRETO - parametro emailDestino - deve ser formato array
+
+- 228 ERRO: FORMATO INCORRETO - parametro emailDestinoCopia - deve ser formato array
+
+- 229 ERRO: FORMATO INCORRETO - parametro emailDestinoCopiaOculta - deve ser formato array
 
 ///////////////////////////////////////////////////////////////////////
 
