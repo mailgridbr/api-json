@@ -114,11 +114,11 @@ CÓDIGOS DE RETORNO
 
 - 215 ERRO: TAMANHO EXCEDIDO - Ocorre quando o tamanho total da mensagem, incluindo anexos, exceder o limite do plano
 
-- 221 ERRO: LIMITE DE CONTATOS EXCECIDO - parametro emailDestino - Ocorre quando o limite de contatos no campo emailDestino, por chamada, é excedido
+- 221 ERRO: LIMITE DE CONTATOS EXCEDIDO - parametro emailDestino - Ocorre quando o limite de contatos no campo emailDestino, por chamada, é excedido
 
-- 222 ERRO: LIMITE DE CONTATOS EXCECIDO - parametro emailDestinoCopia - Ocorre quando o limite de contatos no campo emailDestinoCopia, por chamada, é excedido
+- 222 ERRO: LIMITE DE CONTATOS EXCEDIDO - parametro emailDestinoCopia - Ocorre quando o limite de contatos no campo emailDestinoCopia, por chamada, é excedido
 
-- 223 ERRO: LIMITE DE CONTATOS EXCECIDO - parametro emailDestinoCopiaOculta - Ocorre quando o limite de contatos no campo emailDestinoCopiaOculta, por chamada, é excedido
+- 223 ERRO: LIMITE DE CONTATOS EXCEDIDO - parametro emailDestinoCopiaOculta - Ocorre quando o limite de contatos no campo emailDestinoCopiaOculta, por chamada, é excedido
 
 
 ///////////////////////////////////////////////////////////////////////
