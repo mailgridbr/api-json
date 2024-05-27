@@ -2,13 +2,16 @@
 
 ///////////////////////////////////////////////////////////////////////
 
+
 <h2>ENVIO DE EMAILS</h2>
 
 Bem-vindo ao guia de referências da API de envio SMTP! É através desta API
 que você irá integrar seu sistema ao nosso para realizar os envios através de
 nosso SMTP dedicado.
 
+
 ///////////////////////////////////////////////////////////////////////
+
 
 ENDPOINT PARA ENVIO
 
@@ -17,17 +20,22 @@ https://painel.mailgrid.com.br/api/send/
 
 - Também é possível usar o protocolo http caso prefira.
 - As chamadas da API devem ser feitas em POST
+- Máx. 10 chamadas simultâneas, por segundo. 
 
 ///////////////////////////////////////////////////////////////////////
+
 
 INFORMAÇÕES ADICIONAIS
 
 - Todos os envios são realizados na API pela porta 587 SMTP.
 - Os parâmetros e conteúdos passados, devem ser codificados em UTF-8.
 
+
 ///////////////////////////////////////////////////////////////////////
 
+
 PARÂMETROS A SEREM PASSADOS
+
 
 host_smtp (Endereço do servidor SMTP) -  Obrigatório
 
@@ -64,6 +72,7 @@ mensagemAnexos (Array com anexos codificados em base64) - Opcional
 
 NO CASO DE ENVIAR UM OU MAIS ANEXOS
 
+
 A API permite o envio de um ou mais arquivos anexos, usando o parâmetro opcional, mensagemAnexos para isso, em array, no seguinte modelo: 
 
 onde: 
@@ -78,20 +87,24 @@ exemplo:
 
 ///////////////////////////////////////////////////////////////////////
 
+
 Atenção: Os dados devem ser passados via POST, codificados em JSON.
 Não esqueça de passar o header Content-Type: application/json
 
 O tamanho total da mensagem (incluindo anexos) não deve exceder 50 MB. Isso inclui a mensagem em si, os cabeçalhos e o tamanho combinado de quaisquer anexos.
 
+
 ///////////////////////////////////////////////////////////////////////
 
+
 CÓDIGOS DE RETORNO
+
 
 - 200 MSG ENVIADA - Informa que o envio ocorreu com sucesso
   
 - 208 FALTAM PARAMETROS - Informa que um ou mais parâmetros obrigatórios, não foi passado ou não foram passados no formato JSON
 
-- 204 ERRO DE ENVIO - Ocorre quando houve erro no envio, ocasionado por falha de conexão SMTP
+- 204 ERRO DE ENVIO - Ocorre quando houve erro no envio, ocasionado por falha de conexão SMTP (entrar em contato com o suporte)
 
 - 207 ERRO: FALHA DE AUTENTICACAO  - Ocorre quando forem passados dados incorretos de autenticação SMTP
 
@@ -101,7 +114,9 @@ CÓDIGOS DE RETORNO
 
 - 215 ERRO: TAMANHO EXCEDIDO - Ocorre quando o tamanho total da mensagem, incluindo anexos, exceder o limite do plano
 
+
 ///////////////////////////////////////////////////////////////////////
+
 
 EXEMPLOS DE CHAMADA E RETORNO
 
@@ -145,7 +160,9 @@ Quando ocorrer erro no envio, retornará o erro:
   "to": "seunome@seuemail.com"
 }
 
+
 -----
+
 
 Caso a API retorne o erro “FALTAM PARAMETROS”, ex:
 
@@ -153,19 +170,27 @@ Caso a API retorne o erro “FALTAM PARAMETROS”, ex:
 
 Isso quer dizer que um ou mais parâmetros não foram passados corretamente via POST e codificados em JSON.
 
+
 -----
+
 
 As mensagens enviadas com sucesso são registradas automaticamente no relatório de envios, onde o painel tem atualização aprox. a cada 10 minutos.
 
+
 ///////////////////////////////////////////////////////////////////////
+
 
 <h2>RELATÓRIO DE EMAILS</h2>
 
+
 É através desta API que você irá integrar seu sistema ao nosso para obter relatórios dos envios realizados através de nosso SMTP dedicado.
+
 
 ///////////////////////////////////////////////////////////////////////
 
+
 ENDPOINT PARA OBTER RELATÓRIO DE ENVIOS 
+
 
 Use para obter relatório dos envios realizados
 
@@ -177,6 +202,7 @@ https://painel.mailgrid.com.br/api/report/
 
 
 ///////////////////////////////////////////////////////////////////////
+
 
 PARÂMETROS
 
@@ -200,12 +226,16 @@ remetente (email utilizado como remetente do envio - caso queira pesquisar email
 
 idMensagem (caso queira consultar/pesquisar apenas pelo id de uma mensagem enviada) - Opcional
 
+
 ///////////////////////////////////////////////////////////////////////
+
 
 Atenção: Os dados devem ser passados via POST, codificados em JSON.
 Não esqueça de passar o header Content-Type: application/json
 
+
 ///////////////////////////////////////////////////////////////////////
+
 
 Exemplo de chamada em JSON:
 
@@ -247,6 +277,7 @@ Ex:
 
 ///////////////////////////////////////////////////////////////////////
 
+
 CÓDIGOS DE RETORNO 
 
 - 207 ERRO: FALHA DE AUTENTICACAO - Dados de autenticação informados incorretamente (usuario e senha da conta principal)
@@ -260,6 +291,7 @@ CÓDIGOS DE RETORNO
 Atenção! Os relatórios de envios são atualizados aprox. a cada 10 minutos. Ao realizar um envio, caso não o veja em seguida no painel, basta aguardar a
 atualização.
 
+
 ///////////////////////////////////////////////////////////////////////
 
 
@@ -267,7 +299,9 @@ atualização.
 
 É através desta API que você irá integrar seu sistema ao nosso para obter o relatório consolidado dos envios realizados através de SMTP.
 
+
 ///////////////////////////////////////////////////////////////////////
+
 
 ENDPOINT PARA OBTER RELATÓRIO DE ENVIOS 
 
@@ -282,7 +316,9 @@ https://painel.mailgrid.com.br/api/consolidate/
 
 ///////////////////////////////////////////////////////////////////////
 
+
 PARÂMETROS
+
 
 usuario_smtp (usuário para autenticação – fornecido na abertura de conta, o mesmo utilizado para autenticação smtp) - Obrigatório
 
@@ -302,12 +338,16 @@ emaildestino (email para onde a mensagem foi enviada - caso queira pesquisar ema
 
 remetente (email utilizado como remetente do envio - caso queira pesquisar emails enviados por um determinado remetente) - Opcional
 
+
 ///////////////////////////////////////////////////////////////////////
+
 
 Atenção: Os dados devem ser passados via POST, codificados em JSON.
 Não esqueça de passar o header Content-Type: application/json
 
+
 ///////////////////////////////////////////////////////////////////////
+
 
 Exemplo de chamada em JSON:
 
@@ -350,7 +390,9 @@ Ex:
 
 ///////////////////////////////////////////////////////////////////////
 
+
 CÓDIGOS DE RETORNO 
+
 
 - 207 ERRO: FALHA DE AUTENTICACAO - Dados de autenticação informados incorretamente (usuario e senha da conta principal)
 
@@ -366,7 +408,9 @@ atualização.
 Atenção! Os relatórios de envios são atualizados aprox. a cada 10 minutos. Ao realizar um envio, caso não o veja em seguida no painel, basta aguardar a
 atualização.
 
+
 ///////////////////////////////////////////////////////////////////////
+
 
 Em caso de dúvidas, entre em contato com nosso suporte técnico, pela URL https://www.mailgrid.com.br/suporte
 
