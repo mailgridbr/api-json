@@ -126,6 +126,8 @@ CÓDIGOS DE RETORNO
 
 - 229 ERRO: FORMATO INCORRETO - parametro emailDestinoCopiaOculta - deve ser formato array
 
+- 230 ERRO: HOST INVALIDO - parametro host_smtp so pode conter hosts da MailGrid
+
 ///////////////////////////////////////////////////////////////////////
 
 
