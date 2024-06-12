@@ -16,7 +16,7 @@ nosso SMTP dedicado.
 ENDPOINT PARA ENVIO
 
 A primeira coisa que você deve saber é o endpoint que usamos:
-https://painel.mailgrid.com.br/api/send/
+https://api.mailgrid.net.br/send/
 
 - Também é possível usar o protocolo http caso prefira.
 - As chamadas da API devem ser feitas em POST
@@ -208,7 +208,7 @@ ENDPOINT PARA OBTER RELATÓRIO DE ENVIOS
 Use para obter relatório dos envios realizados
 
 A primeira coisa que você deve saber é o endpoint que usamos:
-https://painel.mailgrid.com.br/api/report/
+https://api.mailgrid.net.br/report/
 
 - Também é possível usar o protocolo http caso prefira.
 - As chamadas da API devem ser feitas em POST, codificados em JSON
@@ -321,7 +321,7 @@ ENDPOINT PARA OBTER RELATÓRIO DE ENVIOS
 Use para obter relatório dos envios realizados
 
 A primeira coisa que você deve saber é o endpoint que usamos:
-https://painel.mailgrid.com.br/api/consolidate/
+https://api.mailgrid.net.br/consolidate/
 
 - Também é possível usar o protocolo http caso prefira.
 - As chamadas da API devem ser feitas em POST, codificados em JSON
