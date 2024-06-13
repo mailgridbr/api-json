@@ -128,6 +128,8 @@ CÓDIGOS DE RETORNO
 
 - 230 ERRO: HOST INVALIDO - parametro host_smtp so pode conter hosts da MailGrid
 
+- Metodo nao permitido. Verifique a URL correta na documentacao. Use POST. - Você deve usar o método POST para consumir a API.
+
 ///////////////////////////////////////////////////////////////////////
 
 
@@ -300,6 +302,8 @@ CÓDIGOS DE RETORNO
 - 210 ERRO: DATA COM FORMATO INCORRETO - Data para pesquisa, informada incorretamente - use somente formato YYYY-MM-DD
 
 - 211 ERRO: HORA COM FORMATO INCORRETO - Hora para pesquisa, informada incorretamente - use somente formato HH:MM
+
+- Metodo nao permitido. Verifique a URL correta na documentacao. Use POST. - Você deve usar o método POST para consumir a API.
 
 Atenção! Os relatórios de envios são atualizados aprox. a cada 10 minutos. Ao realizar um envio, caso não o veja em seguida no painel, basta aguardar a
 atualização.
