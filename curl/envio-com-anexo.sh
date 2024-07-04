@@ -1,4 +1,4 @@
-curl --location 'https://painel.mailgrid.com.br/api/send/' \
+curl --location 'https://api.mailgrid.net.br/send/' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "host_smtp": "HOST-SMTP",
