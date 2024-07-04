@@ -1,4 +1,5 @@
-const url = 'https://painel.mailgrid.com.br/api/send/';
+const url = 'https://api.mailgrid.net.br/send/
+';
 
 const data = `{
     "host_smtp": "HOST-SMTP",

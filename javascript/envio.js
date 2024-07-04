@@ -1,4 +1,5 @@
-var url = "https://painel.mailgrid.com.br/api/send/";
+var url = "https://api.mailgrid.net.br/send/
+";
 
 var xhr = new XMLHttpRequest();
 xhr.open("POST", url);

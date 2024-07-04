@@ -1,7 +1,8 @@
 import requests
 from requests.structures import CaseInsensitiveDict
 
-url = "https://painel.mailgrid.com.br/api/send/"
+url = "https://api.mailgrid.net.br/send/
+"
 
 headers = CaseInsensitiveDict()
 headers["Authorization"] = "Content-Type: application/json"
