@@ -20,7 +20,7 @@ https://api.mailgrid.net.br/send/
 
 - Também é possível usar o protocolo http caso prefira.
 - As chamadas da API devem ser feitas em POST
-- Máx. 10 chamadas simultâneas, por segundo. 
+- Máx. 20 chamadas simultâneas, por segundo. 
 
 ///////////////////////////////////////////////////////////////////////
 
