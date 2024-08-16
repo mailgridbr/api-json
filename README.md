@@ -157,14 +157,15 @@ Exemplo de retorno em JSON:
 Quando a mensagem for enviada com sucesso:
 
 {
-  "0": {
     "status": "MSG ENVIADA",
     "codigo": "200",
     "id": "1rDPyZ-0006kJ-2N",
     "criptokey": "67bb60dc8c61c2c807c53a97c781176a",
-    "to": "postmaster@mailgrid.com.br"
+    "to": "postmaster@mailgrid.com.br",
+    "cc": "",
+    "cco": ""
   }
-}
+
 
 Quando ocorrer erro no envio, retornará o erro:
 
