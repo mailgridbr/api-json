@@ -15,10 +15,16 @@ curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
 //Informe os dados fornecidos em sua conta MailGrid, como host, usuário e senha.
 //Informe o remetente da mensagem (email e nome)
-$data = <<<DATA
-{"host_smtp": "HOST-SMTP","usuario_smtp": "USUARIO-SMTP", "senha_smtp": "SENHA-SMTP", "emailRemetente": "EMAIL-REMETENTE", "nomeRemetente": "NOME-REMETENTE","emailDestino": ["postmaster@mailgrid.com.br","dev@mailgrid.com.br"], "assunto": "Teste de envio via API JSON",
-"mensagem": "mensagem de teste da API JSON"}
-DATA;
+$data = json_encode(array(
+    "host_smtp" => "HOST-SMTP",
+    "usuario_smtp" => "USUARIO-SMTP",
+    "senha_smtp" => "SENHA-SMTP",
+    "emailRemetente" => "EMAIL-REMETENTE",
+    "nomeRemetente" => "NOME-REMETENTE",
+    "emailDestino" => array("postmaster@mailgrid.com.br", "dev@mailgrid.com.br"),
+    "assunto" => "Teste de envio via API JSON",
+    "mensagem" => "Mensagem de teste da API JSON"
+));
 
 curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 
