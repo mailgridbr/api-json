@@ -426,15 +426,13 @@ atualização.
 ///////////////////////////////////////////////////////////////////////
 
 
-<h2>ADICIONAR OU CONSULTAR DOMÍNIOS</h2>
+<h2>ADICIONAR DOMÍNIOS DE REMETENTE</h2>
 
-É através desta API que você irá integrar seu sistema para realizar a adição ou consulta de domínios em sua conta.
+É através desta API que você irá integrar seu sistema para realizar a adição de domínios em sua conta.
 
 ///////////////////////////////////////////////////////////////////////
 
 ENDPOINT PARA ADICIONAR DOMÍNIOS
-
-Use para obter relatório dos envios realizados
 
 A primeira coisa que você deve saber é o endpoint que usamos: https://api.mailgrid.net.br/domain/add/
 
@@ -454,7 +452,7 @@ Atenção: Os dados devem ser passados via POST, codificados em JSON. Não esque
 
 Exemplo de chamada em JSON:
 
-Substitua os valores conforme os dados da sua conta e período desejado para consulta. 
+Substitua os valores conforme os dados da sua conta. 
 {
     "token_auth": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 
     "dominio": "dominioaseradicionado.net.br"
@@ -462,7 +460,7 @@ Substitua os valores conforme os dados da sua conta e período desejado para con
 
 Exemplo de retorno da API:
 
-Quando os parâmetros forem passados corretamente, a API retornará os dados dos envios, no período selecionado. 
+Quando os parâmetros forem passados corretamente, a API retornará os dados da consulta. 
 
 Ex: 
 {
@@ -496,8 +494,141 @@ CÓDIGOS DE RETORNO
 
 Atenção! Após realizar a adição de um novo domínio, basta aguardar o email com as instruções de validação. 
 
+
 ///////////////////////////////////////////////////////////////////////
 
+
+<h2>CHECAR STATUS DE DOMÍNIO</h2>
+
+É através desta API que você irá integrar seu sistema para realizar a consulta de status de um domínio em sua conta.
+
+///////////////////////////////////////////////////////////////////////
+
+ENDPOINT PARA CHECAR DOMÍNIO
+
+A primeira coisa que você deve saber é o endpoint que usamos: https://api.mailgrid.net.br/domain/check/
+
+///////////////////////////////////////////////////////////////////////
+
+PARÂMETROS
+
+token_auth (token para autenticação – pode ser obtido no seu painel de cliente, no menu API) - Obrigatório
+
+dominio (domínio a ser adicionado – informe o domínio que deseja adicionar para realizar envios) - Obrigatório
+
+///////////////////////////////////////////////////////////////////////
+
+Atenção: Os dados devem ser passados via POST, codificados em JSON. Não esqueça de passar o header Content-Type: application/json
+
+///////////////////////////////////////////////////////////////////////
+
+Exemplo de chamada em JSON:
+
+Substitua os valores conforme os dados da sua conta. 
+{
+    "token_auth": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 
+    "dominio": "dominioaserchecado.net.br"
+}
+
+Exemplo de retorno da API:
+
+Quando os parâmetros forem passados corretamente, a API retornará os dados do domínio. 
+
+Ex: 
+{
+    "dominio": "teste.net.br",
+    "validado": "nao validado",
+    "liberado para envios": "nao liberado"
+}
+
+///////////////////////////////////////////////////////////////////////
+
+CÓDIGOS DE RETORNO
+
+    207 ERRO: FALHA DE AUTENTICACAO - Dados de autenticação informados incorretamente (token)
+
+    208 ERRO: FALTAM PARAMETROS - Informa que um ou mais parâmetros obrigatórios, não foi passado ou não foram passados no formato JSON
+
+    211 ERRO: DOMINIO INVALIDO - Domínio informado incorretamente, sem TLD, por exemplo
+
+    214 ERRO: SERVIÇO INATIVO - O serviço contratado está inativo ou cancelado
+
+    217 ERRO: DOMINIO NAO ENCONTRADO - O domínio informado não existe em sua conta
+
+    Metodo nao permitido. Verifique a URL correta na documentacao. Use POST. - Você deve usar o método POST para consumir a API.
+
+
+///////////////////////////////////////////////////////////////////////
+
+
+<h2>LISTAR DOMÍNIOS</h2>
+
+É através desta API que você irá integrar seu sistema para realizar a listagem de todos os domínios em sua conta.
+
+///////////////////////////////////////////////////////////////////////
+
+ENDPOINT PARA LISTAR DOMÍNIOS
+
+A primeira coisa que você deve saber é o endpoint que usamos: https://api.mailgrid.net.br/domain/list/
+
+///////////////////////////////////////////////////////////////////////
+
+PARÂMETROS
+
+token_auth (token para autenticação – pode ser obtido no seu painel de cliente, no menu API) - Obrigatório
+
+///////////////////////////////////////////////////////////////////////
+
+Atenção: Os dados devem ser passados via POST, codificados em JSON. Não esqueça de passar o header Content-Type: application/json
+
+///////////////////////////////////////////////////////////////////////
+
+Exemplo de chamada em JSON:
+
+Substitua os valores conforme os dados da sua conta. 
+{
+    "token_auth": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 
+}
+
+Exemplo de retorno da API:
+
+Quando os parâmetros forem passados corretamente, a API retornará a lista e status dos domínios. 
+
+Ex: 
+{
+    "dominio": "dominioteste1.com.br",
+    "validado": "validado",
+    "liberado para envios": "liberado para envios",
+    "dominios_adicionais": [
+        {
+            "dominio": "dominioteste2.net.br",
+            "validado": "nao validado",
+            "liberado para envios": "nao liberado"
+        },
+        {
+            "dominio": "dominioteste3.net.br",
+            "validado": "nao validado",
+            "liberado para envios": "nao liberado"
+        }
+    ]
+}
+
+///////////////////////////////////////////////////////////////////////
+
+CÓDIGOS DE RETORNO
+
+    207 ERRO: FALHA DE AUTENTICACAO - Dados de autenticação informados incorretamente (token)
+
+    208 ERRO: FALTAM PARAMETROS - Informa que um ou mais parâmetros obrigatórios, não foi passado ou não foram passados no formato JSON
+
+    211 ERRO: DOMINIO INVALIDO - Domínio informado incorretamente, sem TLD, por exemplo
+
+    214 ERRO: SERVIÇO INATIVO - O serviço contratado está inativo ou cancelado
+
+    Metodo nao permitido. Verifique a URL correta na documentacao. Use POST. - Você deve usar o método POST para consumir a API.
+
+
+///////////////////////////////////////////////////////////////////////
 
 Em caso de dúvidas, entre em contato com nosso suporte técnico, pela URL https://www.mailgrid.com.br/suporte
 
