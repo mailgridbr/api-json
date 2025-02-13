@@ -423,9 +423,77 @@ CÓDIGOS DE RETORNO
 Atenção! Os relatórios de envios são atualizados aprox. a cada 10 minutos. Ao realizar um envio, caso não o veja em seguida no painel, basta aguardar a
 atualização.
 
-Atenção! Os relatórios de envios são atualizados aprox. a cada 10 minutos. Ao realizar um envio, caso não o veja em seguida no painel, basta aguardar a
-atualização.
+///////////////////////////////////////////////////////////////////////
 
+ADICIONAR OU CONSULTAR DOMÍNIOS
+
+É através desta API que você irá integrar seu sistema para realizar a adição ou consulta de domínios em sua conta.
+
+///////////////////////////////////////////////////////////////////////
+
+ENDPOINT PARA ADICIONAR DOMÍNIOS
+
+Use para obter relatório dos envios realizados
+
+A primeira coisa que você deve saber é o endpoint que usamos: https://api.mailgrid.net.br/domain/add/
+
+///////////////////////////////////////////////////////////////////////
+
+PARÂMETROS
+
+token_auth (token para autenticação – pode ser obtido no seu painel de cliente, no menu API) - Obrigatório
+
+dominio (domínio a ser adicionado – informe o domínio que deseja adicionar para realizar envios) - Obrigatório
+
+///////////////////////////////////////////////////////////////////////
+
+Atenção: Os dados devem ser passados via POST, codificados em JSON. Não esqueça de passar o header Content-Type: application/json
+
+///////////////////////////////////////////////////////////////////////
+
+Exemplo de chamada em JSON:
+
+Substitua os valores conforme os dados da sua conta e período desejado para consulta. 
+{
+    "token_auth": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 
+    "dominio": "dominioaseradicionado.net.br"
+}
+
+Exemplo de retorno da API:
+
+Quando os parâmetros forem passados corretamente, a API retornará os dados dos envios, no período selecionado. 
+
+Ex: 
+{
+    "0": {
+        "status": "DOMINIO ADICIONADO COM SUCESSO - AGUARDE DADOS DE VALIDACAO",
+        "codigo": "200"
+    }
+}
+
+///////////////////////////////////////////////////////////////////////
+
+CÓDIGOS DE RETORNO
+
+    207 ERRO: FALHA DE AUTENTICACAO - Dados de autenticação informados incorretamente (token)
+
+    208 ERRO: FALTAM PARAMETROS - Informa que um ou mais parâmetros obrigatórios, não foi passado ou não foram passados no formato JSON
+
+    211 ERRO: DOMINIO INVALIDO - Domínio informado incorretamente, sem TLD, por exemplo
+
+    213 ERRO: VOCE NAO PODE ADICIONAR NOVOS DOMINIOS EM SEU PLANO - Seu plano permite utilizar apenas 1 domínio de remetente
+    
+    214 ERRO: SERVIÇO INATIVO - O serviço contratado está inativo ou cancelado
+
+    215 ERRO: NUMERO MAXIMO DE DOMINIOS ATINGIDO - Informa que você atingiu o número máximo de domínios de remetente, permitidos em seu plano
+
+    216 ERRO AO ADICIONAR DOMINIO - Erro inesperado ao adicionar o domínio - entre em contato com o suporte
+
+    217 ERRO: DOMINIO JA ESTA SENDO UTILIZADO - Domínio informado já está foi adicionado em sua conta ou existe na conta de outro cliente
+
+    Metodo nao permitido. Verifique a URL correta na documentacao. Use POST. - Você deve usar o método POST para consumir a API.
+
+Atenção! Após realizar a adição de um novo domínio, basta aguardar o email com as instruções de validação. 
 
 ///////////////////////////////////////////////////////////////////////
 
