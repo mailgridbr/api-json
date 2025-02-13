@@ -587,7 +587,7 @@ Exemplo de chamada em JSON:
 
 Substitua os valores conforme os dados da sua conta. 
 {
-    "token_auth": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 
+    "token_auth": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" 
 }
 
 Exemplo de retorno da API:
