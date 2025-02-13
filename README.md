@@ -425,7 +425,8 @@ atualização.
 
 ///////////////////////////////////////////////////////////////////////
 
-ADICIONAR OU CONSULTAR DOMÍNIOS
+
+<h2>ADICIONAR OU CONSULTAR DOMÍNIOS</h2>
 
 É através desta API que você irá integrar seu sistema para realizar a adição ou consulta de domínios em sua conta.
 
