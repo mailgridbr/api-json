@@ -2,12 +2,10 @@
 const axios = require('axios');
 
 // Define a URL da API
-const apiUrl = 'https://api.mailgrid.net.br/send/';
+const apiUrl = 'https://api.mailgrid.net.br/sendmail/';
 
 // Define os cabeçalhos da requisição
 const headers = {
-  // No PHP, "Authorization: Content-Type: application/json" parece ser um erro
-  // Corrigimos aqui usando apenas o Content-Type correto
   'Content-Type': 'application/json'
 };
 
@@ -24,29 +22,45 @@ const data = {
   
   // Lista de destinatários
   emailDestino: [
-    'postmaster@mailgrid.com.br',
-    'dev@mailgrid.com.br'
+    'destinatario1@dominio.com.br',
+    'destinatario2@dominio.com.br'
   ],
   
-  // Assunto e conteúdo da mensagem
-  assunto: 'Teste de envio via API JSON',      // Assunto do email
-  mensagem: 'Mensagem de teste da API JSON'    // Corpo do email
+  // Assunto do email
+  assunto: 'Teste de envio com anexo via API JSON',
+  
+  // Anexos da mensagem (objeto com arquivo codificado em base64)
+  mensagemAnexos: [
+    {
+      name: 'anexoexemplo.pdf',           // Nome do arquivo
+      type: 'application/pdf',           // Tipo MIME do arquivo
+      content: 'UEAEAAAAAAAAAAAAAAAAAAAAA/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAYH/...//Z'  // Conteúdo em base64
+    }
+  ],
+  
+  // Conteúdo principal do email em HTML
+  mensagem: 'Mensagem de teste da API com anexo. O arquivo codificado acima não funciona, é apenas um exemplo.',
+  
+  // Tipo e codificação da mensagem
+  mensagemTipo: 'html',          // Define o formato como HTML
+  mensagemEncoding: 'base64',    // Define a codificação como base64
+  
+  // Versão alternativa em texto puro
+  mensagemAlt: 'Mensagem de teste da API com anexo. O arquivo codificado acima não funciona, é apenas um exemplo.'
 };
 
 // Faz a requisição POST usando axios
 axios.post(apiUrl, data, {
   headers: headers,           // Passa os cabeçalhos
-  // Equivalente a CURLOPT_SSL_VERIFYHOST e CURLOPT_SSL_VERIFYPEER como false
-  // Usado apenas para debug, não recomendado em produção
-  httpsAgent: new (require('https').Agent)({
-    rejectUnauthorized: false
-  })
+  maxRedirects: 10,          // Equivalente a CURLOPT_MAXREDIRS
+  timeout: 0,               // Sem timeout (equivalente a CURLOPT_TIMEOUT => 0)
+  httpAgent: new (require('http').Agent)({ keepAlive: true }), // Mantém a conexão viva
 })
   .then(response => {
-    // Exibe a resposta da API (equivalente ao var_dump do PHP)
+    // Exibe a resposta da API
     console.log(response.data);
   })
-  .catch(error => {
+  .catch(error =>  {
     // Trata possíveis erros na requisição
     console.error('Erro na requisição:', error.message);
-  });
+});
