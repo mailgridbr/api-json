@@ -1,47 +1,61 @@
+
 // URL do endpoint da API para envio de e-mail
-var url = "https://api.mailgrid.net.br/send/";
+const url = 'https://api.mailgrid.net.br/sendmail/';
 
-// Criação de um novo objeto XMLHttpRequest para realizar a requisição
-var xhr = new XMLHttpRequest();
-
-// Configuração do método da requisição (POST) e URL do endpoint
-xhr.open("POST", url);
-
-// Definição dos cabeçalhos para a requisição, incluindo tipo de conteúdo
-xhr.setRequestHeader("Content-Type", "application/json"); // Define que os dados serão enviados como JSON
-xhr.setRequestHeader("Authorization", "Bearer SEU_TOKEN_AQUI"); // Substitua pelo seu token de autenticação (se necessário)
-
-// Função que será chamada sempre que o estado da requisição mudar
-xhr.onreadystatechange = function () {
-   // Verifica se a requisição foi concluída (readyState 4 significa "done")
-   if (xhr.readyState === 4) {
-      // Exibe o código de status da resposta (200 indica sucesso)
-      console.log("Código de status:", xhr.status);
-      
-      // Exibe o conteúdo da resposta da API
-      console.log("Resposta:", xhr.responseText);
-      
-      // Verifica se a requisição foi bem-sucedida (status 2xx)
-      if (xhr.status >= 200 && xhr.status < 300) {
-          console.log("E-mail enviado com sucesso!");
-      } else {
-          console.error("Erro ao enviar o e-mail.");
-      }
-   }
-};
-
-// Dados que serão enviados no corpo da requisição
-var data = JSON.stringify({
-    "host_smtp": "HOST-SMTP",                // Host do servidor SMTP
-    "usuario_smtp": "USUARIO-SMTP",          // Usuário SMTP
-    "senha_smtp": "SENHA-SMTP",              // Senha SMTP
-    "emailRemetente": "EMAIL-REMETENTE",     // E-mail do remetente
-    "nomeRemetente": "NOME-REMETENTE",       // Nome do remetente
-    "emailDestino": ["postmaster@mailgrid.com.br", "dev@mailgrid.com.br"], // E-mails de destino
-    "assunto": "Teste de envio via API JSON", // Assunto do e-mail
-    "mensagem": "mensagem de teste da API JSON" // Corpo do e-mail
+// Definição dos dados que serão enviados na requisição (e-mail, anexos, etc)
+const data = JSON.stringify({
+ "host_smtp": "HOST-SMTP",                  // Host do servidor SMTP
+ "usuario_smtp": "USUARIO-SMTP",            // Usuário SMTP
+ "senha_smtp": "SENHA-SMTP",                // Senha SMTP
+ "emailRemetente": "EMAIL-REMETENTE",       // E-mail do remetente
+ "nomeRemetente": "NOME-REMETENTE",         // Nome do remetente
+ "emailDestino": ["dev@mailgrid.net.br", "postmaster@mailgrid.net.br"], // Destinatários do e-mail
+ "assunto": "Teste da API JSON com anexo",  // Assunto do e-mail
+ "mensagemAnexos": [
+	{ 
+		"name": "pixel.jpg", 
+		"type": "image/jpeg", 
+		"content": "/9j/4AAQSkZJRgABAQEBLAEsAAD..." // Exemplo de conteúdo codificado em base64
+	},
+	{
+		"name": "pixel2.jpg", 
+		"type": "image/jpeg", 
+		"content": "/9j/4AAQSkZJRgABAQEBLAEsAAD..." // Outro exemplo de conteúdo codificado em base64
+	}
+  ],
+	"mensagem": "Mensagem de teste da API com anexos. Testando anexos de html no envio da api", // Corpo da mensagem em HTML
+	"mensagemTipo": "html",                    // Tipo de conteúdo da mensagem (html ou texto)
+	"mensagemEncoding": "quoted-printable",    // Codificação da mensagem
+	"mensagemAlt": "mensagem de teste da API JSON com anexos" // Texto alternativo da mensagem
 });
 
-// Envia a requisição com os dados no formato JSON
-xhr.send(data);
+// Função assíncrona para enviar a requisição POST para a API
+async function sendEmail() {
+ try {
+   // Envia a requisição usando o fetch API
+   const response = await fetch(url, {
+	 method: 'POST',                        // Definindo o método HTTP como POST
+	 headers: {
+		'Content-Type': 'application/json', // Definindo o tipo de conteúdo como JSON
+	 },
+	body: data, // Envia os dados convertidos para JSON
+	});
 
+	// Verifica se a resposta foi bem-sucedida (código 2xx)
+	if (!response.ok) {
+		throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
+	}
+
+	// Lê a resposta da API como texto
+	const text = await response.text();
+
+	// Exibe a resposta no console (pode ser JSON ou erro da API)
+	console.log("Resposta da API:", text);
+	} catch (error) {
+		// Trata qualquer erro que ocorra durante a requisição
+		console.error("Erro ao enviar o e-mail:", error);
+	}
+}
+
+// Chama a função para enviar o e-mail
+sendEmail();
