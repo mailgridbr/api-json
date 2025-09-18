@@ -17,12 +17,12 @@ class Program
             httpRequest.Method = "POST";
 
             // Definindo os cabeçalhos da requisição
-            httpRequest.Headers["Authorization"] = "Bearer SEU_TOKEN_AQUI"; // Cabeçalho de Autorização (caso necessário)
             httpRequest.ContentType = "application/json"; // Especificando que o conteúdo é JSON
 
             // Dados da requisição (parâmetros de consulta para o relatório)
-            var data = "{\"usuario_smtp\": \"USUARIO-SMTP\", \"senha_smtp\": \"SENHA-SMTP\", " +
-                       "\"dataini\": \"2022-09-27\", \"horaini\": \"00:01\", \"datafim\": \"2022-09-27\", \"horafim\": \"23:59\"}";
+            var data = "{\"token_auth\": \"INFORME-O-TOKEN-AQUI\", " +
+                       "\"dataini\": \"2022-09-27\", \"horaini\": \"00:01\", \"datafim\": \"2022-09-27\", 
+					   \"horafim\": \"23:59\"}";
 
             // Escrevendo os dados no corpo da requisição
             using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream(), Encoding.UTF8))
@@ -65,3 +65,4 @@ class Program
         }
     }
 }
+		
