@@ -1,56 +1,65 @@
-<?php
-///// Exemplo de envio PHP com API JSON MailGrid
+// Inicializa a sessão cURL
+$curl = curl_init();
 
-// Define a URL da API do MailGrid
-$url = "https://api.mailgrid.net.br/send/";
+// Define as opções cURL usando um array associativo
+curl_setopt_array($curl, array(
+ // URL da API mailgrid para envio de email
+ CURLOPT_URL =>'https://api.mailgrid.net.br/sendmail/',
+	
+ // Faz com que o cURL retorne a resposta como string
+ CURLOPT_RETURNTRANSFER =>true,
 
-// Inicializa a sessão cURL com a URL da API
-$curl = curl_init($url);
+ // Define a codificação de resposta para ser aceita
+ CURLOPT_ENCODING =>'',
 
-// Define a URL para a requisição
-curl_setopt($curl, CURLOPT_URL, $url);
+ // Define o número máximo de redirecionamentos
+ CURLOPT_MAXREDIRS =>10,
 
-// Define o método de requisição como POST
-curl_setopt($curl, CURLOPT_POST, true);
+ // Define o tempo máximo de espera da requisição
+ CURLOPT_TIMEOUT =>0,
 
-// Faz com que o cURL retorne a resposta como uma string
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+ // Permite o cURL seguir redirecionamentos automaticamente
+ CURLOPT_FOLLOWLOCATION =>true,
 
-// Define os cabeçalhos HTTP para a requisição
-$headers = array(
-   "Authorization: Content-Type: application/json", // Cabeçalho de autorização (caso seja necessário autenticação)
-   "Content-Type: application/json", // Especifica que o corpo da requisição está em JSON
-);
-curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+ // Define a versão do protocolo HTTP a ser usado
+ CURLOPT_HTTP_VERSION =>CURL_HTTP_VERSION_1_1,
 
-// Cria os dados a serem enviados, utilizando json_encode para transformar em JSON
-// Substitua os valores abaixo pelos dados reais fornecidos pelo MailGrid
-$data = json_encode(array(
-    "host_smtp" => "HOST-SMTP", // Informe o seu servidor SMTP
-    "usuario_smtp" => "USUARIO-SMTP", // Informe seu usuário SMTP
-    "senha_smtp" => "SENHA-SMTP", // Informe a senha do seu SMTP
-    "emailRemetente" => "EMAIL-REMETENTE", // Informe o email do remetente
-    "nomeRemetente" => "NOME-REMETENTE", // Informe o nome do remetente
-    "emailDestino" => array("postmaster@mailgrid.com.br", "dev@mailgrid.com.br"), // Emails dos destinatários
-    "assunto" => "Teste de envio via API JSON", // Assunto do email
-    "mensagem" => "Mensagem de teste da API JSON" // Corpo da mensagem
+ // Define o método da requisição como POST
+ CURLOPT_CUSTOMREQUEST =>'POST',
+
+ // Define os dados do corpo da requisição em formato JSON
+ CURLOPT_POSTFIELDS => '{
+    "host_smtp": "HOST-SMTP", // Substitua por seu host SMTP
+    "usuario_smtp": "USUARIO-SMTP", // Substitua pelo usuário SMTP
+    "senha_smtp": "SENHA-SMTP", // Substitua pela senha SMTP
+    "emailRemetente": "EMAIL-REMETENTE", // Email do remetente
+    "nomeRemetente": "NOME-REMETENTE", // Nome do remetente
+    "emailDestino": ["destinatario1@dominio.com.br", "destinatario2@dominio.com.br"], // Emails dos destinatários
+    "assunto": "Teste de envio com anexo via API JSON", // Assunto do email
+    "mensagemAnexos": [
+	    {
+	       "name": "anexoexemplo.pdf", // Nome do arquivo
+	       "type": "application/pdf", // Tipo MIME do arquivo
+	        "content": "UEAEAAAAAAAAAAAAAAAAAAAAA/..." // Conteúdo do arquivo codificado em base64
+	    }
+    ],
+    "mensagem": "Mensagem de teste da API com anexo. Atenção, o arquivo codificado acima não funciona, é um exemplo."
+    "mensagemTipo": "html", // Tipo de mensagem (HTML)
+    "mensagemEncoding": "base64", // Codificação do arquivo anexo (base64)
+    "mensagemAlt": "Mensagem de teste da API com anexo. Atenção, o arquivo codificado acima não funciona, é um exemplo."
+}',
+
+	// Define o cabeçalho da requisição, informando que o corpo está em JSON
+	CURLOPT_HTTPHEADER => array(
+		'Content-Type: application/json'
+	),
 ));
 
-// Define os dados (corpo) da requisição POST
-curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-
-// Configurações para debug (apenas para desenvolvimento)
-// Desativa a verificação do host e do peer SSL (útil para evitar erros de certificado durante o desenvolvimento)
-// **Nunca use isso em produção, pois pode causar falhas de segurança**.
-curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-
 // Executa a requisição cURL e armazena a resposta
-$resp = curl_exec($curl);
+$response = curl_exec($curl);
 
 // Fecha a sessão cURL
 curl_close($curl);
 
-// Exibe a resposta para depuração (ideal para testar o que a API retorna)
-var_dump($resp);
-?>
+// Exibe a resposta recebida da API
+echo $response;
