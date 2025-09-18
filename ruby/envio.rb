@@ -1,49 +1,68 @@
 # Importa a biblioteca HTTParty para fazer requisições HTTP
 require 'httparty'
 
-# Define a URL da API como uma constante
-API_URL = 'https://api.mailgrid.net.br/send/'
+# Define a URL da API como uma constante para fácil manutenção
+API_URL = 'https://api.mailgrid.net.br/sendmail/'
 
-# Define os cabeçalhos da requisição
+# Define os cabeçalhos da requisição (headers)
 headers = {
-  # No PHP, "Authorization: Content-Type: application/json" parece ser um erro de formatação
-  # Corrigimos aqui usando apenas o Content-Type correto
-  'Content-Type' => 'application/json'
+	'Content-Type' => 'application/json'  # Indica que o corpo da requisição é JSON
 }
 
 # Cria o corpo da requisição como um hash Ruby
-# Os dados serão convertidos automaticamente para JSON
+# Este hash será automaticamente convertido para JSON pela biblioteca HTTParty
 body = {
-  # Configurações do servidor SMTP
-  'host_smtp' => 'HOST-SMTP',          # Endereço do servidor SMTP
-  'usuario_smtp' => 'USUARIO-SMTP',    # Usuário para autenticação SMTP
-  'senha_smtp' => 'SENHA-SMTP',        # Senha para autenticação SMTP
-  
-  # Informações do remetente
-  'emailRemetente' => 'EMAIL-REMETENTE',  # Email do remetente
-  'nomeRemetente' => 'NOME-REMETENTE',    # Nome do remetente
-  
-  # Lista de emails de destino (array)
-  'emailDestino' => [
-    'postmaster@mailgrid.com.br',
-    'dev@mailgrid.com.br'
-  ],
-  
-  # Assunto e corpo da mensagem
-  'assunto' => 'Teste de envio via API JSON',      # Assunto do email
-  'mensagem' => 'Mensagem de teste da API JSON'    # Conteúdo do email
+	# Configurações do servidor SMTP
+	'host_smtp' => 'HOST-SMTP',          # Endereço do servidor SMTP
+	'usuario_smtp' => 'USUARIO-SMTP',    # Usuário para autenticação SMTP
+	'senha_smtp' => 'SENHA-SMTP',        # Senha para autenticação SMTP
+	
+	# Informações do remetente
+	'emailRemetente' => 'EMAIL-REMETENTE',  # Email do remetente
+	'nomeRemetente' => 'NOME-REMETENTE',    # Nome do remetente
+	
+	# Destinatários (array de emails)
+	'emailDestino' => [
+	'destinatario1@dominio.com.br',
+	'destinatario2@dominio.com.br'
+	],
+	
+	# Assunto do email
+	'assunto' => 'Teste de envio com anexo via API JSON',
+	
+	# Anexos da mensagem
+	# Aqui definimos um arquivo de exemplo em base64
+	'mensagemAnexos' => [
+	{
+		'name' =>'anexoexemplo.pdf',           # Nome do arquivo
+		'type' =>'application/pdf',           # Tipo MIME do arquivo
+		'content' =>'UEAEAAAAAAAAAAAAAAAAAAAAA/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAYH/...//Z'  # Conteúdo em base64
+	}
+	],
+	
+	# Conteúdo principal do email
+	'mensagem' = 'Mensagem de teste da API com anexo. O arquivo codificado acima não funciona, é um exemplo.',
+	
+	# Tipo de formatação da mensagem
+	'mensagemTipo' => 'html',          # Define que a mensagem é em formato HTML
+	
+	# Codificação da mensagem
+	'mensagemEncoding' => 'base64',    # Define a codificação como base64
+	
+	# Versão alternativa da mensagem em texto puro
+	'mensagemAlt' = 'Mensagem de teste da API com anexo. O arquivo codificado acima não funciona, é um exemplo.'
 }
 
 # Faz a requisição POST para a API
+# O HTTParty converte automaticamente o hash para JSON
 response = HTTParty.post(
-  API_URL,
-  headers: headers,           # Passa os cabeçalhos definidos
-  body: body.to_json,         # Converte o hash para JSON e envia no corpo
-  # Equivalente ao CURLOPT_SSL_VERIFYHOST e CURLOPT_SSL_VERIFYPEER como false
-  # Usado apenas para debug, não recomendado em produção
-  verify: false
+	API_URL,
+	headers: headers,     # Passa os cabeçalhos definidos
+	body: body.to_json,   # Converte o hash para JSON e envia no corpo
+	timeout: 0,          # Sem timeout (equivalente ao CURLOPT_TIMEOUT => 0)
+	follow_redirects: true  # Segue redirecionamentos automaticamente
 )
 
 # Exibe a resposta da API
-# Em Ruby, `puts` com `inspect` é similar ao `var_dump` do PHP
-puts response.body.inspect
+puts response.body
+			
