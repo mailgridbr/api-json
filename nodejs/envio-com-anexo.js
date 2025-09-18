@@ -2,7 +2,7 @@
 const axios = require('axios');
 
 // Define a URL da API
-const apiUrl = 'https://api.mailgrid.net.br/send/';
+const apiUrl = 'https://api.mailgrid.net.br/sendmail/';
 
 // Define os cabeçalhos da requisição
 const headers = {
@@ -30,23 +30,23 @@ const data = {
   assunto: 'Teste de envio com anexo via API JSON',
   
   // Anexos da mensagem (objeto com arquivo codificado em base64)
-  mensagemAnexos: {
-    file1: {
+  mensagemAnexos: [
+    {
       name: 'anexoexemplo.pdf',           // Nome do arquivo
       type: 'application/pdf',           // Tipo MIME do arquivo
-      content: 'UEAEAAAAAAAAAAAAAAAAAAAAA/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAYH/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AoytOgAAAAAAAP//Z'  // Conteúdo em base64
+      content: 'UEAEAAAAAAAAAAAAAAAAAAAAA/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAYH/...//Z'  // Conteúdo em base64
     }
-  },
+  ],
   
   // Conteúdo principal do email em HTML
-  mensagem: '<h1>Mensagem de teste da API com anexo</h1> <p>Atenção, o arquivo codificado acima não funciona, é apenas um exemplo.</p>',
+  mensagem: 'Mensagem de teste da API com anexo. O arquivo codificado acima não funciona, é apenas um exemplo.',
   
   // Tipo e codificação da mensagem
   mensagemTipo: 'html',          // Define o formato como HTML
   mensagemEncoding: 'base64',    // Define a codificação como base64
   
   // Versão alternativa em texto puro
-  mensagemAlt: 'Mensagem de teste da API com anexo. >Atenção, o arquivo codificado acima não funciona, é apenas um exemplo.'
+  mensagemAlt: 'Mensagem de teste da API com anexo. O arquivo codificado acima não funciona, é apenas um exemplo.'
 };
 
 // Faz a requisição POST usando axios
@@ -60,7 +60,7 @@ axios.post(apiUrl, data, {
     // Exibe a resposta da API
     console.log(response.data);
   })
-  .catch(error => {
+  .catch(error =>  {
     // Trata possíveis erros na requisição
     console.error('Erro na requisição:', error.message);
-  });
+});
