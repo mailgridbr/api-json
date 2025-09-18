@@ -1,70 +1,81 @@
+
 using System;
-using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 class Program
-{
-    static void Main()
-    {
-        // URL do endpoint da API
-        var url = "https://api.mailgrid.net.br/send/";
 
-        try
-        {
-            // Criação da requisição HTTP POST
-            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
-            httpRequest.Method = "POST";
+ // URL do endpoint da API
+ private static readonly string apiUrl = "https://api.mailgrid.net.br/sendmail/";
 
-            // Definindo os cabeçalhos da requisição
-            httpRequest.Headers["Authorization"] = "Bearer SEU_TOKEN"; // Corrigido para Bearer Token (se necessário)
-            httpRequest.ContentType = "application/json"; // Especificando o tipo do conteúdo
+  // Método principal assíncrono
+	static async Task Main(string[] args)
+	{
+	// Cria a instância do HttpClient
+	using (var client = new HttpClient())
+	{
+	// Cria a requisição HTTP com o método POST para a URL do endpoint
+	var request = new HttpRequestMessage(HttpMethod.Post, apiUrl);
 
-            // Dados da requisição, que serão enviados no corpo da requisição
-            var data = @"{
-                            ""host_smtp"": ""HOST-SMTP"",
-                            ""usuario_smtp"": ""USUARIO-SMTP"",
-                            ""senha_smtp"": ""SENHA-SMTP"",
-                            ""emailRemetente"": ""EMAIL-REMETENTE"",
-                            ""nomeRemetente"": ""NOME-REMETENTE"",
-                            ""emailDestino"": [""postmaster@mailgrid.com.br"", ""dev@mailgrid.com.br""],
-                            ""assunto"": ""Teste de envio via API JSON"",
-                            ""mensagem"": ""mensagem de teste da API JSON""
-                        }";
+	// Dados do corpo da requisição, incluindo as informações do e-mail e anexos
+	var jsonContent = "{\r\n" +
+		"    \"host_smtp\": \"HOST-SMTP\",\r\n" +
+		"    \"usuario_smtp\": \"USUARIO-SMTP\",\r\n" +
+		"    \"senha_smtp\": \"SENHA-SMTP\",\r\n" +
+		"    \"emailRemetente\": \"EMAIL-REMETENTE\",\r\n" +
+		"    \"nomeRemetente\": \"NOME-REMETENTE\",\r\n" +
+		"    \"emailDestino\": [\"dev@mailgrid.net.br\",\"postmaster@mailgrid.net.br\"],\r\n" +
+		"    \"assunto\": \"Teste da API JSON com anexo\",\r\n" +
+		"    \"mensagemAnexos\": [\r\n" +
+		"       {\r\n" +
+		"            \"name\": \"pixel.jpg\",\r\n" +
+		"            \"type\": \"image/jpeg\",\r\n" +
+		"            \"content\": \"/9j/4AAQSkZJRgABAQEBLAEsAAD/2wBDAAYEBAQFBAYFBQYJBgUGCQsIBgYIC...\"\r\n" +
+		"       },\r\n" +
+		"       {\r\n" +
+		"            \"name\": \"pixel2.jpg\",\r\n" +
+		"            \"type\": \"image/jpeg\",\r\n" +
+		"            \"content\": \"/9j/4AAQSkZJRgABAQEBLAEsAAD/2wBDAAYEBAQFBAYFBQYJBgUGCQsIBgYIC...\"\r\n" +
+		"    ],\r\n" +
 
-            // Escrevendo os dados no corpo da requisição
-            using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream(), Encoding.UTF8))
-            {
-                streamWriter.Write(data);
-            }
+		     "Mensagem de teste da API com anexos. Testando anexos de html no envio da api\",\r\n" +
+		"    \"mensagem\": 
+		"    \"mensagemTipo\": \"html\",\r\n" +
+		"    \"mensagemEncoding\": \"quoted-printable\",\r\n" +
+		"    \"mensagemAlt\": \"mensagem de teste da API JSON com anexos\"\r\n" +
+		"    }";
 
-            // Obtenção da resposta HTTP
-            using (var httpResponse = (HttpWebResponse)httpRequest.GetResponse())
-            {
-                // Lê o conteúdo da resposta
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                {
-                    var result = streamReader.ReadToEnd();
-                    Console.WriteLine($"Resposta da API: {result}");
-                }
+	// Define o conteúdo da requisição como JSON
+	var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                // Exibe o código de status da resposta HTTP
-                Console.WriteLine($"Código de status: {httpResponse.StatusCode}");
-            }
-        }
-        catch (WebException webEx)
-        {
-            // Captura falhas de requisição, como erros de rede, URL incorreta ou erro no servidor
-            using (var streamReader = new StreamReader(webEx.Response.GetResponseStream()))
-            {
-                var errorResponse = streamReader.ReadToEnd();
-                Console.WriteLine($"Erro na requisição: {errorResponse}");
-            }
-        }
-        catch (Exception ex)
-        {
-            // Captura outros tipos de exceções
-            Console.WriteLine($"Erro inesperado: {ex.Message}");
-        }
+	// Adiciona o conteúdo ao corpo da requisição
+	request.Content = content;
+
+	try
+	{
+	 // Envia a requisição HTTP de forma assíncrona
+	 var response = await client.SendAsync(request);
+
+	 // Garante que a resposta tenha sido bem-sucedida (código de status 2xx)
+	 response.EnsureSuccessStatusCode();
+
+	 // Exibe o conteúdo da resposta da API
+	 Console.WriteLine("Resposta da API:");
+	 string responseContent = await response.Content.ReadAsStringAsync();
+	 Console.WriteLine(responseContent);
+	}
+	catch (HttpRequestException ex)
+	{
+	 // Trata erros de requisição HTTP (como problemas de conexão ou falhas no servidor)
+	 Console.WriteLine($"Erro ao fazer a requisição: {ex.Message}");
+	}
+	catch (Exception ex)
+	{
+		// Trata outros tipos de exceção
+		Console.WriteLine($"Erro inesperado: {ex.Message}");
+	 }
     }
+  } 
 }
+							
